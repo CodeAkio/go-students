@@ -1,14 +1,22 @@
 package main
 
 import (
-	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
+func getAllStudents(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"id":   1,
+		"name": "Pedro",
+	})
+}
+
 func main() {
 	r := gin.Default()
 
-	fmt.Println("🚀 Running server at: http://localhost:8080")
+	r.GET("/api/students", getAllStudents)
+
 	r.Run()
 }
