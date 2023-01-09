@@ -12,3 +12,11 @@ func GetAllStudents(c *gin.Context) {
 		"name": "Pedro",
 	})
 }
+
+func Greeting(c *gin.Context) {
+	name := c.Params.ByName("name")
+
+	c.JSON(http.StatusOK, gin.H{
+		"API says:": "Hi, " + name + ", how are you?",
+	})
+}
