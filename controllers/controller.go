@@ -16,12 +16,21 @@ func GetAllStudents(c *gin.Context) {
 	c.JSON(http.StatusOK, students)
 }
 
-func Greeting(c *gin.Context) {
-	name := c.Params.ByName("name")
+func GetStudentById(c *gin.Context) {
+	var student models.Student
+	id := c.Params.ByName("id")
 
-	c.JSON(http.StatusOK, gin.H{
-		"API says:": "Hi, " + name + ", how are you?",
-	})
+	database.DB.First(&student, id)
+
+	if student.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Not found": "Aluno não encontrado",
+		})
+
+		return
+	}
+
+	c.JSON(http.StatusOK, student)
 }
 
 func CreateStudent(c *gin.Context) {
