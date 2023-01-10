@@ -1,11 +1,14 @@
 package main
 
 import (
+	"github.com/CodeAkio/go-students/database"
 	"github.com/CodeAkio/go-students/models"
 	"github.com/CodeAkio/go-students/routes"
 )
 
 func main() {
+	database.ConnectDb()
+
 	models.Students = []models.Student{
 		{Name: "Pedro", CPF: "000.000.000-00", RG: "00.000.000-0"},
 		{Name: "Ana", CPF: "111.111.111-11", RG: "11.111.111-1"},
