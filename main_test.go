@@ -91,3 +91,20 @@ func TestGetStudentByIdHandler(t *testing.T) {
 	assert.Equal(t, "111111111", studentMock.RG, "Deveriam ser iguais")
 	assert.Equal(t, http.StatusOK, res.Code, "Deveriam ser iguais")
 }
+
+func TestDeleteStudent(t *testing.T) {
+	database.ConnectDb()
+
+	CreateStudentMock()
+
+	r := SetupTestRoutes()
+	r.DELETE("/api/students/:id", controllers.DeleteStudent)
+
+	path := "/api/students/" + strconv.Itoa(StudentId)
+	req, _ := http.NewRequest("DELETE", path, nil)
+	res := httptest.NewRecorder()
+
+	r.ServeHTTP(res, req)
+
+	assert.Equal(t, http.StatusOK, res.Code, "Deveriam ser iguais")
+}
