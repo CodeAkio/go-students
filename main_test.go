@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"testing"
 
 	"github.com/CodeAkio/go-students/controllers"
@@ -63,5 +65,29 @@ func TestGetStudentByCpfHandler(t *testing.T) {
 
 	r.ServeHTTP(res, req)
 
+	assert.Equal(t, http.StatusOK, res.Code, "Deveriam ser iguais")
+}
+
+func TestGetStudentByIdHandler(t *testing.T) {
+	database.ConnectDb()
+
+	CreateStudentMock()
+	defer DeleteStudentMock()
+
+	r := SetupTestRoutes()
+	r.GET("/api/students/:id", controllers.GetAllStudents)
+
+	path := "/api/students/" + strconv.Itoa(StudentId)
+	req, _ := http.NewRequest("GET", path, nil)
+	res := httptest.NewRecorder()
+
+	r.ServeHTTP(res, req)
+
+	var studentMock models.Student
+	json.Unmarshal(res.Body.Bytes(), &studentMock)
+
+	assert.Equal(t, "John Doo", studentMock.Name, "Deveriam ser iguais")
+	assert.Equal(t, "11111111111", studentMock.CPF, "Deveriam ser iguais")
+	assert.Equal(t, "111111111", studentMock.RG, "Deveriam ser iguais")
 	assert.Equal(t, http.StatusOK, res.Code, "Deveriam ser iguais")
 }
