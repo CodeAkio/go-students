@@ -15,6 +15,7 @@ import (
 var StudentId int
 
 func SetupTestRoutes() *gin.Engine {
+	gin.SetMode(gin.ReleaseMode)
 	routes := gin.Default()
 	return routes
 }
@@ -41,9 +42,26 @@ func TestGetAllStudentsHandler(t *testing.T) {
 	r.GET("/api/students", controllers.GetAllStudents)
 
 	req, _ := http.NewRequest("GET", "/api/students", nil)
-	response := httptest.NewRecorder()
+	res := httptest.NewRecorder()
 
-	r.ServeHTTP(response, req)
+	r.ServeHTTP(res, req)
 
-	assert.Equal(t, http.StatusOK, response.Code, "Deveriam ser iguais")
+	assert.Equal(t, http.StatusOK, res.Code, "Deveriam ser iguais")
+}
+
+func TestGetStudentByCpfHandler(t *testing.T) {
+	database.ConnectDb()
+
+	CreateStudentMock()
+	defer DeleteStudentMock()
+
+	r := SetupTestRoutes()
+	r.GET("/api/students/cpf/:cpf", controllers.GetAllStudents)
+
+	req, _ := http.NewRequest("GET", "/api/students/cpf/11111111111", nil)
+	res := httptest.NewRecorder()
+
+	r.ServeHTTP(res, req)
+
+	assert.Equal(t, http.StatusOK, res.Code, "Deveriam ser iguais")
 }
