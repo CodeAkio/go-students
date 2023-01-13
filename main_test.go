@@ -58,7 +58,7 @@ func TestGetStudentByCpfHandler(t *testing.T) {
 	defer DeleteStudentMock()
 
 	r := SetupTestRoutes()
-	r.GET("/api/students/cpf/:cpf", controllers.GetAllStudents)
+	r.GET("/api/students/cpf/:cpf", controllers.GetStudentByCpf)
 
 	req, _ := http.NewRequest("GET", "/api/students/cpf/11111111111", nil)
 	res := httptest.NewRecorder()
@@ -75,7 +75,7 @@ func TestGetStudentByIdHandler(t *testing.T) {
 	defer DeleteStudentMock()
 
 	r := SetupTestRoutes()
-	r.GET("/api/students/:id", controllers.GetAllStudents)
+	r.GET("/api/students/:id", controllers.GetStudentById)
 
 	path := "/api/students/" + strconv.Itoa(StudentId)
 	req, _ := http.NewRequest("GET", path, nil)
