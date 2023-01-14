@@ -119,3 +119,9 @@ func DeleteStudent(c *gin.Context) {
 		"message": "Aluno deletado com sucesso",
 	})
 }
+
+func ShowIndexPage(c *gin.Context) {
+	c.HTML(http.StatusOK, "index.html", gin.H{
+		"message": "Welcome",
+	})
+}
