@@ -18,6 +18,7 @@ func HandleRequests() {
 	r.DELETE("/api/students/:id", controllers.DeleteStudent)
 
 	r.GET("/index", controllers.ShowIndexPage)
+	r.NoRoute(controllers.NotFoundPage)
 
 	r.Run()
 }

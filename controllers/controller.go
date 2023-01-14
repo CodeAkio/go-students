@@ -129,3 +129,7 @@ func ShowIndexPage(c *gin.Context) {
 		"students": students,
 	})
 }
+
+func NotFoundPage(c *gin.Context) {
+	c.HTML(http.StatusNotFound, "404.html", nil)
+}
